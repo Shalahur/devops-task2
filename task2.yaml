@@ -1,0 +1,9 @@
+---
+- name: hello nodes
+  hosts: webservers
+  tasks:
+    - name: Print Debug message
+      debug:
+        msg: Hello node
+
+...
