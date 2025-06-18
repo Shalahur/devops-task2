@@ -6,8 +6,6 @@
     - name: Update apt package
       apt:
         update_cache: yes
-      debug:
-        msg: apt update done
 
     - name: Install required packages
       apt:
@@ -40,13 +38,13 @@
 
     - name: install docker's package
       apt:
-        - name:
-            - docker-ce
-            - docker-ce-cli
-            - containerd.io
-            - docker-buildx-plugin
-            - docker-compose-plugin
-          state: latest
+        name:
+          - docker-ce
+          - docker-ce-cli
+          - containerd.io
+          - docker-buildx-plugin
+          - docker-compose-plugin
+        state: latest
 
     - name: docker started
       systemd:
