@@ -1,5 +1,5 @@
 ---
-- name: Docker install
+- name: Docker install play
   hosts: webservers
   become: true
   tasks:
@@ -51,4 +51,24 @@
         name: docker
         state: started
         enabled: true
+
+
+- name: Nginx install play
+  host: proxyserver
+  become: true
+  tasks:
+    - name: Update apt package
+      apt:
+        update_cache: yes
+
+    - name: install Nginx
+      apt:
+        name: nginx
+        state: present
+
+    - name: start Nginx
+      ansible.builtin.systemd:
+        name: nginx
+        enable: true
+        state: started
 ...
