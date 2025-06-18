@@ -47,8 +47,8 @@
         state: latest
 
     - name: docker started
-      systemd:
+      ansible.builtin.systemd:
         name: docker
-        enable: true
         state: started
+        enable: true
 ...
