@@ -6,4 +6,7 @@
       debug:
         msg: Hello node
 
+    - name: Update apt package index
+      apt:
+        update_cache: yes
 ...
