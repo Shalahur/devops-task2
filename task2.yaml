@@ -52,9 +52,8 @@
         state: started
         enabled: true
 
-
 - name: Nginx install play
-  host: proxyserver
+  hosts: proxyserver
   become: true
   tasks:
     - name: Update apt package
@@ -69,6 +68,6 @@
     - name: start Nginx
       ansible.builtin.systemd:
         name: nginx
-        enable: true
+        enabled: true
         state: started
 ...
