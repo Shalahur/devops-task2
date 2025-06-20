@@ -6,5 +6,5 @@ FROM alpine/java:21-jre
 #    apt-get clean \
 
 # Copy your application JAR and set the entrypoint
-COPY target/task2-0.0.1-SNAPSHOT.jar  app.jar
+COPY target/app-0.0.1.jar app.jar
 ENTRYPOINT ["java", "-jar", "/app.jar"]

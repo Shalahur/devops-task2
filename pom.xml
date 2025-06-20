@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.dev.ops.task2</groupId>
-	<artifactId>task2</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<name>task2</name>
+	<artifactId>app</artifactId>
+	<version>0.0.1</version>
+	<name>app</name>
 	<description>Dev Ops task2 project for Spring Boot</description>
 	<url/>
 	<licenses>
