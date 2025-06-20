@@ -17,9 +17,11 @@ public class HelloController {
 	@GetMapping("/hi")
 	public String hello() {
 		String hostname = null;
+		String gitCommitHash = null;
 		try {
 			try {
 				hostname = Files.readString(Paths.get("/etc/hostname")).trim();
+				gitCommitHash = Files.readString(Paths.get("/app/GIT_COMMIT")).trim();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -32,10 +34,10 @@ public class HelloController {
 			System.err.println("Could not determine local host: " + e.getMessage());
 		}
 
-		return "Node: " + hostname + " and Git commit hash: " + getLastGitCommitHash();
+		return "Node: " + hostname + " and Git commit hash: " + gitCommitHash;
 	}
 
-	public static String getLastGitCommitHash() {
+	/*public static String getLastGitCommitHash() {
 		try {
 			// Execute the Git command to get the last commit hash
 			Process process = Runtime.getRuntime().exec("git rev-parse HEAD");
@@ -67,6 +69,6 @@ public class HelloController {
 			System.err.println("Error executing Git command: " + e.getMessage());
 			return null;
 		}
-	}
+	}*/
 
 }
