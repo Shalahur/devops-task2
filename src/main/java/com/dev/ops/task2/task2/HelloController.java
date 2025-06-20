@@ -1,5 +1,6 @@
 package com.dev.ops.task2.task2;
 
+import ch.qos.logback.core.util.StringUtil;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -7,7 +8,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.InetAddress;
-import java.net.UnknownHostException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 @RestController
 public class HelloController {
@@ -16,9 +18,17 @@ public class HelloController {
 	public String hello() {
 		String hostname = null;
 		try {
-			InetAddress localHost = InetAddress.getLocalHost();
-			hostname = localHost.getHostName();
-		} catch (UnknownHostException e) {
+			try {
+				hostname = Files.readString(Paths.get("/etc/hostname")).trim();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			if (StringUtil.isNullOrEmpty(hostname)) {
+				InetAddress localHost = InetAddress.getLocalHost();
+				hostname = localHost.getHostName();
+			}
+
+		} catch (Exception e) {
 			System.err.println("Could not determine local host: " + e.getMessage());
 		}
 
