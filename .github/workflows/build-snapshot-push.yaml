@@ -18,15 +18,18 @@ jobs:
           java-version: '21'
           distribution: 'temurin'
 
-      - name: Cache Maven packages
-        uses: actions/cache@v3
-        with:
-          path: ~/.m2/repository
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-          restore-keys: ${{ runner.os }}-maven
+#      - name: Cache Maven packages
+#        uses: actions/cache@v3
+#        with:
+#          path: ~/.m2/repository
+#          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }} #do not understand this line.
+#          restore-keys: ${{ runner.os }}-maven
+#
+#      - name: Build with Maven
+#        run: mvn clean package
 
-      - name: Build with Maven
-        run: mvn clean package
+      - name: Initialize with Maven
+        run: mvn -N exec:exec@init
 
         # Get the latest Git commit hash and write to file
       - name: Write Git commit hash to file
