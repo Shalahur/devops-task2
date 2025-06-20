@@ -7,4 +7,5 @@ FROM alpine/java:21-jre
 
 # Copy your application JAR and set the entrypoint
 COPY target/app-0.0.1.jar app.jar
+
 ENTRYPOINT ["java", "-jar", "/app.jar"]
