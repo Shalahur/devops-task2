@@ -1,6 +1,7 @@
 package com.dev.ops.task2.task2;
 
 import ch.qos.logback.core.util.StringUtil;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -14,30 +15,43 @@ import java.nio.file.Paths;
 @RestController
 public class HelloController {
 
+	@Value("${PARENT_HOSTNAME}")
+	private String hostname;
+
 	@GetMapping("/hi")
 	public String hello() {
-		String hostname = null;
+
 		String gitCommitHash = null;
 		try {
 			try {
-				hostname = Files.readString(Paths.get("/etc/hostname")).trim();
 				gitCommitHash = Files.readString(Paths.get("/app/GIT_COMMIT")).trim();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+
 			if (StringUtil.isNullOrEmpty(hostname)) {
 				InetAddress localHost = InetAddress.getLocalHost();
 				hostname = localHost.getHostName();
+			}
+
+			if (StringUtil.isNullOrEmpty(gitCommitHash)) {
+				gitCommitHash = getLastGitCommitHash();
 			}
 
 		} catch (Exception e) {
 			System.err.println("Could not determine local host: " + e.getMessage());
 		}
 
+		/**
+		 * there is a issue, if i created a image locally and run that image then
+		 * system does not show the git commit file becasue we did not copy the
+		 * git commit file for local development.
+		 * */
+
 		return "Node: " + hostname + " and Git commit hash: " + gitCommitHash;
 	}
 
-	/*public static String getLastGitCommitHash() {
+	public static String getLastGitCommitHash() {
 		try {
 			// Execute the Git command to get the last commit hash
 			Process process = Runtime.getRuntime().exec("git rev-parse HEAD");
@@ -69,6 +83,6 @@ public class HelloController {
 			System.err.println("Error executing Git command: " + e.getMessage());
 			return null;
 		}
-	}*/
+	}
 
 }
