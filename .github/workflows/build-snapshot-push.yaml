@@ -52,6 +52,9 @@ jobs:
         uses: webfactory/ssh-agent@v0.5.4
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+      - name: Deploy on Remote server1
+        run: | 
+          echo 'shalahur/devops-task2:${GITHUB_SHA:0:6}'
 
       - name: Deploy on Remote server1
         run: |
