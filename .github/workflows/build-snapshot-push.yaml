@@ -76,6 +76,6 @@ jobs:
             docker stop devops-task2 || true
             docker rm devops-task2 || true
             docker run -d --name devops-task2 -p 8080:8080 \
-              -e PARENT_HOSTNAME=192.168.123.114 \
+              -e PARENT_HOSTNAME=192.168.123.115 \
               shalahur/devops-task2:$SHORT_SHA
           EOF
