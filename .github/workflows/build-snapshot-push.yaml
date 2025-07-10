@@ -47,3 +47,26 @@ jobs:
       - name: Push Docker image to Docker Hub
         run: |
           docker push shalahur/devops-task2:${GITHUB_SHA:0:6}
+
+      - name: Set up ssh
+        run: webfactory/ssh-agent@0.9.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Deploy on Remote server1
+        run: |
+          ssh -o StrictHostKeyChecking=no do5@192.168.123.114 << 'EOF'
+            docker pull shalahur/devops-task2:${GITHUB_SHA:0:6}
+            docker stop devops-task2 || true
+            docker rm devops-task2 || true
+            docker run -d --name devops-task2 -p 8080:8080 -e PARENT_HOSTNAME=192.168.123.114 shalahur/devops-task2:${GITHUB_SHA:0:6}
+          EOF
+
+      - name: Deploy on Remote server2
+        run: |
+          ssh -o StrictHostKeyChecking=no do6@192.168.123.115 << 'EOF'
+            docker pull shalahur/devops-task2:${GITHUB_SHA:0:6}
+            docker stop devops-task2 || true
+            docker rm devops-task2 || true
+            docker run -d --name devops-task2 -p 8080:8080 -e PARENT_HOSTNAME=192.168.123.115 shalahur/devops-task2:${GITHUB_SHA:0:6}
+          EOF
