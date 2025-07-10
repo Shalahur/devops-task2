@@ -58,18 +58,24 @@ jobs:
 
       - name: Deploy on Remote server1
         run: |
-          ssh -tt -o StrictHostKeyChecking=no do5@192.168.123.114 << 'EOF'
-            docker pull shalahur/devops-task2:${GITHUB_SHA:0:6}
-            docker stop devops-task2 || true
-            docker rm devops-task2 || true
-            docker run -d --name devops-task2 -p 8080:8080 -e PARENT_HOSTNAME=192.168.123.114 shalahur/devops-task2:${GITHUB_SHA:0:6}
-          EOF
+           SHORT_SHA=${GITHUB_SHA::6}
+           ssh -o StrictHostKeyChecking=no do5@192.168.123.114 << EOF
+             docker pull shalahur/devops-task2:$SHORT_SHA
+             docker stop devops-task2 || true
+             docker rm devops-task2 || true
+             docker run -d --name devops-task2 -p 8080:8080 \
+               -e PARENT_HOSTNAME=192.168.123.114 \
+               shalahur/devops-task2:$SHORT_SHA
+           EOF
 
       - name: Deploy on Remote server2
         run: |
-          ssh -tt -o StrictHostKeyChecking=no do6@192.168.123.115 << 'EOF'
-            docker pull shalahur/devops-task2:${GITHUB_SHA:0:6}
+          SHORT_SHA=${GITHUB_SHA::6}
+          ssh -o StrictHostKeyChecking=no do6@192.168.123.115 << EOF
+            docker pull shalahur/devops-task2:$SHORT_SHA
             docker stop devops-task2 || true
             docker rm devops-task2 || true
-            docker run -d --name devops-task2 -p 8080:8080 -e PARENT_HOSTNAME=192.168.123.115 shalahur/devops-task2:${GITHUB_SHA:0:6}
+            docker run -d --name devops-task2 -p 8080:8080 \
+              -e PARENT_HOSTNAME=192.168.123.114 \
+              shalahur/devops-task2:$SHORT_SHA
           EOF
